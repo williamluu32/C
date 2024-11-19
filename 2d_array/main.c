@@ -7,6 +7,16 @@
 #define MAX_COLS 20
 #define MAX_ROWS 20
 
+/////////////////////////////////////////////////////////////////////////////
+void swap(int *a, int *b)
+{
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+
 /**
  * Nhập giá trị kích thước không vượt quá max_val
  */
@@ -120,6 +130,38 @@ void copy_entire_column(int matrix[][MAX_COLS], int n_rows, int n_cols, int sour
     }
 }
 
+/**
+ * Hoán đổi nội dung của hai dòng với nhau
+ */
+void swap_rows(int matrix[][MAX_COLS], int n_rows, int n_cols, int h, int k)
+{
+    if (h < 0 || h >= n_rows || k < 0 || k >= n_rows)
+    {
+        return;
+    }
+
+    for (int i = 0; i < n_cols; i++)
+    {
+        swap(&matrix[h][i], &matrix[k][i]);
+    }
+}
+
+/**
+ * Hoán đổi nội dung của hai cột với nhau
+ */
+void swap_columns(int matrix[][MAX_COLS], int n_rows, int n_cols, int h, int k)
+{
+    if (h < 0 || h >= n_cols || k < 0 || k >= n_cols)
+    {
+        return;
+    }
+
+    for (int i = 0; i < n_rows; i++)
+    {
+        swap(&matrix[i][h], &matrix[i][k]);
+    }
+}
+
 int main()
 {
     int matrix[MAX_COLS][MAX_ROWS];
@@ -127,7 +169,7 @@ int main()
 
     matrix_input(matrix, &n, &m);
     matrix_output(matrix, n, m);
-    copy_entire_column(matrix, n, m, 0, 2);
+    swap_columns(matrix, n, m, 0, 2);
     puts("");
     matrix_output(matrix, n, m);
 
