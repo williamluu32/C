@@ -104,6 +104,22 @@ void copy_entire_row(int matrix[][MAX_COLS], int n_rows, int n_cols, int source_
     }
 }
 
+/**
+ * Chép toàn bộ nội dung từ cột source tới cột đích
+ */
+void copy_entire_column(int matrix[][MAX_COLS], int n_rows, int n_cols, int source_col, int des_col)
+{
+    if (source_col < 0 || source_col >= n_cols || des_col < 0 || des_col >= n_cols)
+    {
+        return;
+    }
+
+    for (int i = 0; i < n_rows; i++)
+    {
+        matrix[i][des_col] = matrix[i][source_col];
+    }
+}
+
 int main()
 {
     int matrix[MAX_COLS][MAX_ROWS];
@@ -111,7 +127,8 @@ int main()
 
     matrix_input(matrix, &n, &m);
     matrix_output(matrix, n, m);
-    copy_entire_row(matrix, n, m, 0, 2);
+    copy_entire_column(matrix, n, m, 0, 2);
+    puts("");
     matrix_output(matrix, n, m);
 
     return EXIT_SUCCESS;
