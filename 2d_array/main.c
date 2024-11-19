@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <time.h>
+#include <stdlib.h>
 
 #define EXIT_SUCCESS 0
 #define TRUE 1
@@ -36,6 +38,32 @@ void matrix_input(int matrix[][MAX_ROWS], int *n, int *m)
     }
 }
 
+void matrix_random_input(int matrix[][MAX_ROWS], int *n, int *m)
+{
+    printf("Number of rows: ");
+    *n = size_input(MAX_ROWS);
+
+    printf("Number of columns: ");
+    *m = size_input(MAX_COLS);
+
+    int from, to;
+    printf("From value: ");
+    scanf("%d", &from);
+    printf("To value: ");
+    scanf("%d", &to);
+
+    srand(time(NULL));
+
+    for (int i = 0; i < *n; i++)
+    {
+        for (int j = 0; j < *m; j++)
+        {
+            // matrix[i][j] = rand() % 100; // from 0 to 100
+            matrix[i][j] = from + rand() % (to - from + 1); // inclusive range [from, to]
+        }
+    }
+}
+
 void matrix_output(int matrix[][MAX_ROWS], int n, int m)
 {
     for (int i = 0; i < n; i++)
@@ -53,7 +81,7 @@ int main()
     int matrix[MAX_COLS][MAX_ROWS];
     int n_cols, n_rows;
 
-    matrix_input(matrix, &n_cols, &n_rows);
+    matrix_random_input(matrix, &n_cols, &n_rows);
     matrix_output(matrix, n_cols, n_rows);
 
     return EXIT_SUCCESS;
