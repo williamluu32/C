@@ -7,6 +7,9 @@
 #define MAX_COLS 20
 #define MAX_ROWS 20
 
+/**
+ * Nhập giá trị kích thước không vượt quá max_val
+ */
 int size_input(int max_val)
 {
     int size;
@@ -21,30 +24,36 @@ int size_input(int max_val)
     return size;
 }
 
-void matrix_input(int matrix[][MAX_ROWS], int *n, int *m)
+/**
+ * Nhập ma trận
+ */
+void matrix_input(int matrix[][MAX_ROWS], int *n_rows, int *n_cols)
 {
     printf("Number of rows: ");
-    *n = size_input(MAX_ROWS);
+    *n_rows = size_input(MAX_ROWS);
 
     printf("Number of columns: ");
-    *m = size_input(MAX_COLS);
+    *n_cols = size_input(MAX_COLS);
 
-    for (int i = 0; i < *n; i++)
+    for (int i = 0; i < *n_rows; i++)
     {
-        for (int j = 0; j < *m; j++)
+        for (int j = 0; j < *n_cols; j++)
         {
             scanf("%d", &matrix[i][j]);
         }
     }
 }
 
-void matrix_random_input(int matrix[][MAX_ROWS], int *n, int *m)
+/**
+ * Nhập ma trận với các giá trị được sinh ngẫu nhiên
+ */
+void matrix_random_input(int matrix[][MAX_ROWS], int *n_rows, int *n_cols)
 {
     printf("Number of rows: ");
-    *n = size_input(MAX_ROWS);
+    *n_rows = size_input(MAX_ROWS);
 
     printf("Number of columns: ");
-    *m = size_input(MAX_COLS);
+    *n_cols = size_input(MAX_COLS);
 
     int from, to;
     printf("From value: ");
@@ -54,9 +63,9 @@ void matrix_random_input(int matrix[][MAX_ROWS], int *n, int *m)
 
     srand(time(NULL));
 
-    for (int i = 0; i < *n; i++)
+    for (int i = 0; i < *n_rows; i++)
     {
-        for (int j = 0; j < *m; j++)
+        for (int j = 0; j < *n_cols; j++)
         {
             // matrix[i][j] = rand() % 100; // from 0 to 100
             matrix[i][j] = from + rand() % (to - from + 1); // inclusive range [from, to]
@@ -64,11 +73,14 @@ void matrix_random_input(int matrix[][MAX_ROWS], int *n, int *m)
     }
 }
 
-void matrix_output(int matrix[][MAX_ROWS], int n, int m)
+/**
+ * Xuất ma trận
+ */
+void matrix_output(int matrix[][MAX_ROWS], int n_rows, int n_cols)
 {
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < n_rows; i++)
     {
-        for (int j = 0; j < m; j++)
+        for (int j = 0; j < n_cols; j++)
         {
             printf("%d ", matrix[i][j]);
         }
@@ -76,13 +88,31 @@ void matrix_output(int matrix[][MAX_ROWS], int n, int m)
     }
 }
 
+/**
+ * Chép toàn bộ nội dung từ dòng source tới dòng đích
+ */
+void copy_entire_row(int matrix[][MAX_COLS], int n_rows, int n_cols, int source_row, int des_row)
+{
+    if (source_row < 0 || source_row >= n_rows || des_row < 0 || des_row >= n_rows)
+    {
+        return;
+    }
+
+    for (int i = 0; i < n_cols; i++)
+    {
+        matrix[des_row][i] = matrix[source_row][i];
+    }
+}
+
 int main()
 {
     int matrix[MAX_COLS][MAX_ROWS];
-    int n_cols, n_rows;
+    int n, m;
 
-    matrix_random_input(matrix, &n_cols, &n_rows);
-    matrix_output(matrix, n_cols, n_rows);
+    matrix_input(matrix, &n, &m);
+    matrix_output(matrix, n, m);
+    copy_entire_row(matrix, n, m, 0, 2);
+    matrix_output(matrix, n, m);
 
     return EXIT_SUCCESS;
 }
